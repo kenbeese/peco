@@ -3,6 +3,7 @@ package peco
 import (
 	"fmt"
 	"os"
+	"strconv"
 	"strings"
 	"time"
 
@@ -82,6 +83,18 @@ func (km Keymap) resolveActionName(name string, depth int) (Action, error) {
 	v, ok := nameToActions[name]
 	if ok {
 		return v, nil
+	}
+
+	// If all else fails...
+	// Finish is a special case. We can dynamically create  a finish
+	// function that exits with an arbitrary exit status
+	if strings.HasPrefix(name, "peco.Finish") {
+		intstr, err := strconv.ParseInt(name[11:], 10, 64)
+		if err == nil {
+			v = makeFinishAction(int(intstr))
+			nameToActions[name] = v
+			return v, nil
+		}
 	}
 
 	// Can it be resolved via combined actions?

@@ -217,7 +217,7 @@ func doSelectVisible(i *Input, _ termbox.Event) {
 	i.DrawMatches(nil)
 }
 
-func doFinish(i *Input, _ termbox.Event) {
+func _finishAction(i *Input, ev termbox.Event) {
 	// Must end with all the selected lines.
 	if i.SelectionLen() == 0 {
 		i.SelectionAdd(i.currentLine)
@@ -238,8 +238,16 @@ func doFinish(i *Input, _ termbox.Event) {
 		close(i.resultCh)
 	}()
 
-	i.ExitWith(0)
 }
+
+func makeFinishAction(st int) ActionFunc {
+	return func(i *Input, ev termbox.Event) {
+		_finishAction(i, ev)
+		i.ExitWith(st)
+	}
+}
+
+var doFinish = makeFinishAction(0)
 
 func doCancel(i *Input, ev termbox.Event) {
 	if i.keymap.Keyseq.InMiddleOfChain() {

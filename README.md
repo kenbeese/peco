@@ -317,6 +317,7 @@ Some keys just... don't map correctly / too easily for various reasons. Here, we
 | peco.CancelRangeMode   | Finish selecting by range and cancel range selection |
 | peco.RotateMatcher      | Rotate between matchers (by default, ignore-case/no-ignore-case)|
 | peco.Finish             | Exits from peco with success status |
+| peco.FinishXXXX         | Exits from peco using the integer value in XXX |
 | peco.Cancel             | Exits from peco with failure status, or cancel select mode |
 
 ### Default Keymap
